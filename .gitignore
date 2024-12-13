@@ -1,9 +1,12 @@
-HELP.md
+# Ignore target directories globally
 target/
-!.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
 
+# Ignore Maven wrapper JAR but keep it in specific directories
+!.mvn/wrapper/maven-wrapper.jar
+
+# Eclipse/STS specific files
 ### STS ###
 .apt_generated
 .classpath
@@ -13,12 +16,14 @@ target/
 .springBeans
 .sts4-cache
 
+# IntelliJ IDEA specific files
 ### IntelliJ IDEA ###
-.idea
+.idea/
 *.iws
 *.iml
 *.ipr
 
+# NetBeans specific files
 ### NetBeans ###
 /nbproject/private/
 /nbbuild/
@@ -29,6 +34,9 @@ build/
 !**/src/main/**/build/
 !**/src/test/**/build/
 
+# VS Code specific files
 ### VS Code ###
 .vscode/
+
+# Ignore all JSON files in resources except for the ones explicitly listed
 src/main/resources/*.json
