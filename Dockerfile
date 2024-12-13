@@ -1,29 +1,25 @@
-# Multi-stage Dockerfile for LocaLink Project
-
 # Stage 1: Build
-FROM maven:3.8.7-openjdk-17 AS build
+FROM maven:3.8.6-openjdk-17 AS build  # Change this line if necessary
 
 # Set the working directory in the container
 WORKDIR /app
 
-# Copy the Maven project files
-COPY pom.xml .
-COPY src ./src
+# Copy the Spring Boot application code into the container
+COPY . .
 
-# Build the project
-RUN mvn clean package -DskipTests
+# Build the application using Maven
+RUN mvn clean install
 
-# Stage 2: Runtime
+# Stage 2: Run
 FROM openjdk:17-jdk-slim
 
-# Set the working directory in the container
 WORKDIR /app
 
-# Copy the built jar file from the build stage
-COPY --from=build /app/target/*.jar app.jar
+# Copy the JAR file from the build stage to the run stage
+COPY --from=build /app/target/your-application-name.jar app.jar
 
-# Expose the application port
+# Expose the application port (default Spring Boot port)
 EXPOSE 8080
 
-# Run the application
-CMD ["java", "-jar", "app.jar"]
+# Command to run the Spring Boot application
+ENTRYPOINT ["java", "-jar", "app.jar"]
