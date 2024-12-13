@@ -14,6 +14,10 @@ import org.springframework.context.annotation.Configuration;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.util.Base64;
+import javax.annotation.PostConstruct;
 
 @Configuration
 public class FirebaseConfig {
@@ -21,8 +25,11 @@ public class FirebaseConfig {
 	ApiKey key = new ApiKey();
     @Bean
     public Firestore firestore() throws IOException {
-        FileInputStream serviceAccount = new FileInputStream("src/main/resources/"+key.json);
-        
+       // FileInputStream serviceAccount = new FileInputStream("src/main/resources/"+key.json);
+
+	                String firebaseConfig = System.getenv("FIREBASE_CONFIG");
+            byte[] decodedBytes = Base64.getDecoder().decode(firebaseConfig);
+            InputStream serviceAccount = new ByteArrayInputStream(decodedBytes);
         GoogleCredentials credentials = GoogleCredentials.fromStream(serviceAccount);
         FirestoreOptions firestoreOptions = FirestoreOptions.newBuilder()
                 .setCredentials(credentials)
